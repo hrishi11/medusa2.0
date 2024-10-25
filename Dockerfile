@@ -9,7 +9,8 @@ COPY package*.json ./
 
 # Install Python and other required packages
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python-is-python3
+    apt-get install -y python3 python3-pip python-is-python3 && \
+    rm -rf /var/lib/apt/lists/*  # Clean up
 
 # Install Medusa CLI globally
 RUN npm install -g @medusajs/medusa-cli
@@ -20,8 +21,8 @@ RUN npm install
 # Copy the rest of the app files
 COPY . .
 
-# Build the app
+# Build the app (if applicable)
 RUN npm run build
 
-# Run database migrations and then start the server
+# Command to run migrations and start the server
 CMD ["sh", "-c", "npx medusa db:migrate && npx medusa start"]

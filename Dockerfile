@@ -20,5 +20,8 @@ RUN npm install
 # Copy the rest of the app files
 COPY . .
 
-# Run database migrations and start the development server
-CMD ["npx", "medusa", "start"]
+# Build the app
+RUN npm run build
+
+# Run database migrations and then start the server
+CMD ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
